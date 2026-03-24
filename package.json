@@ -1,0 +1,19 @@
+{
+  "name": "trademind",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TradeMind — Autonomous DeFi Concierge on TON blockchain",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev:client": "pnpm --filter telegram-mini-app dev",
+    "dev:backend": "pnpm --filter bot-backend dev",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r exec -- npx rimraf dist node_modules .next"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

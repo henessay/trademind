@@ -1,0 +1,235 @@
+/*
+ * TradeMind — Global Design System
+ *
+ * Typography:
+ *   font-sans → ABC Diatype (headings, buttons, general UI)
+ *   font-mono → Suisse Int'l Mono (APY, TVL, balances, addresses)
+ *
+ * Theme: Telegram CSS vars with light-mode fallbacks
+ * Accent: TON Blue #4DB8FF
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── @font-face: ABC Diatype ─────────────────────────────── */
+
+@font-face {
+  font-family: 'ABC Diatype';
+  src: url('/fonts/ABCDiatype-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Diatype';
+  src: url('/fonts/ABCDiatype-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ABC Diatype';
+  src: url('/fonts/ABCDiatype-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── @font-face: Suisse Int'l Mono ───────────────────────── */
+
+@font-face {
+  font-family: 'Suisse Intl Mono';
+  src: url('/fonts/SuisseIntlMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Suisse Intl Mono';
+  src: url('/fonts/SuisseIntlMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Telegram CSS Variable Fallbacks (Light Theme) ────────── */
+
+:root {
+  --tg-color-scheme: light;
+  --tg-theme-bg-color: #FFFFFF;
+  --tg-theme-text-color: #0F1011;
+  --tg-theme-hint-color: #999999;
+  --tg-theme-link-color: #4DB8FF;
+  --tg-theme-button-color: #4DB8FF;
+  --tg-theme-button-text-color: #FFFFFF;
+  --tg-theme-secondary-bg-color: #F7F8FA;
+  --tg-theme-header-bg-color: #FFFFFF;
+  --tg-theme-accent-text-color: #4DB8FF;
+  --tg-theme-section-bg-color: #FFFFFF;
+  --tg-theme-section-header-text-color: #6D6D72;
+  --tg-theme-subtitle-text-color: #8E8E93;
+  --tg-theme-destructive-text-color: #FF3B30;
+  --tg-theme-bottom-bar-bg-color: #F7F8FA;
+}
+
+/* ─── Tailwind Base Overrides ──────────────────────────────── */
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply font-sans;
+    background-color: var(--tg-theme-bg-color, #FFFFFF);
+    color: var(--tg-theme-text-color, #0F1011);
+    line-height: 1.5;
+    overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* ABC Diatype for all headings */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans;
+  }
+
+  /* Suisse Int'l Mono — tabular nums for aligned financial columns */
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* ─── Component Classes ────────────────────────────────────── */
+
+@layer components {
+  .card {
+    @apply rounded-tg p-5;
+    background-color: var(--tg-theme-section-bg-color, #FFFFFF);
+    border: 1px solid var(--tg-theme-secondary-bg-color, #F3F4F6);
+    transition: border-color 0.2s ease;
+  }
+  .card:active {
+    border-color: var(--tg-theme-hint-color, #C7C7CC);
+  }
+
+  /* Buttons use ABC Diatype (font-sans) explicitly */
+  .btn-primary {
+    @apply w-full py-4 rounded-tg-sm text-base font-semibold font-sans
+           text-btn-primary-text cursor-pointer
+           transition-all duration-150 ease-out
+           active:scale-[0.98] active:opacity-80
+           disabled:opacity-40 disabled:cursor-not-allowed;
+    background-color: var(--tg-theme-button-color, #4DB8FF);
+    border: none;
+    outline: none;
+  }
+
+  .btn-ghost {
+    @apply w-full py-4 rounded-tg-sm text-base font-medium font-sans
+           cursor-pointer bg-transparent
+           transition-all duration-150 ease-out
+           active:scale-[0.98] active:opacity-70;
+    color: var(--tg-theme-accent-text-color, #4DB8FF);
+    border: 1.5px solid var(--tg-theme-accent-text-color, #4DB8FF);
+    outline: none;
+  }
+
+  .section-label {
+    @apply text-xs font-semibold font-sans uppercase tracking-wider;
+    color: var(--tg-theme-section-header-text-color, #6D6D72);
+    letter-spacing: 0.08em;
+  }
+
+  /* Metric rows: label is sans, value is mono */
+  .metric-row {
+    @apply flex justify-between items-center py-1.5;
+  }
+  .metric-label {
+    @apply text-sm font-sans;
+    color: var(--tg-theme-subtitle-text-color, #8E8E93);
+  }
+  .metric-value {
+    @apply text-sm font-semibold font-mono;
+    color: var(--tg-theme-text-color, #0F1011);
+  }
+
+  /* Financial value — mono font for any numeric financial display */
+  .financial-value {
+    @apply font-mono;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full
+           text-xs font-semibold font-sans;
+  }
+
+  .progress-track {
+    @apply h-1 rounded-full overflow-hidden;
+    background: var(--tg-theme-secondary-bg-color, #F7F8FA);
+  }
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-500 ease-out;
+    background: var(--tg-theme-button-color, #4DB8FF);
+  }
+
+  .spinner {
+    @apply inline-block w-6 h-6 rounded-full animate-spin;
+    border: 3px solid var(--tg-theme-secondary-bg-color, #F7F8FA);
+    border-top-color: var(--tg-theme-button-color, #4DB8FF);
+  }
+}
+
+/* ─── Utilities ────────────────────────────────────────────── */
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .animate-stagger-1 { animation-delay: 0.05s; }
+  .animate-stagger-2 { animation-delay: 0.10s; }
+  .animate-stagger-3 { animation-delay: 0.15s; }
+  .animate-stagger-4 { animation-delay: 0.20s; }
+}
+
+/* ─── Accordion (outside layers for specificity) ───────────── */
+
+.accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease-out, opacity 0.2s ease-out;
+  opacity: 0;
+}
+.accordion-content[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.accordion-inner {
+  overflow: hidden;
+}
+
+.accordion-chevron {
+  transition: transform 0.25s ease-out;
+  display: inline-block;
+}
+.accordion-chevron[data-open="true"] {
+  transform: rotate(180deg);
+}

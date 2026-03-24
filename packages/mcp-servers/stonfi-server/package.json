@@ -1,0 +1,30 @@
+{
+  "name": "mcp-server-stonfi",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.0",
+    "@ston-fi/sdk": "^2.7.0",
+    "@ton/ton": "^14.0.0",
+    "@ton/core": "^0.56.0",
+    "rxjs": "^7.8.0",
+    "zod": "^3.23.0"
+  },
+  "optionalDependencies": {
+    "@ston-fi/api": "*",
+    "@ston-fi/omniston-sdk": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "tsx": "^4.19.0",
+    "@types/node": "^20.14.0"
+  }
+}

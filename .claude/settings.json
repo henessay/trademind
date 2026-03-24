@@ -1,0 +1,38 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schemas/settings.json",
+  "permissions": {
+    "allow": [
+      "bash(grep:*)",
+      "bash(cat:*)",
+      "bash(wc:*)",
+      "bash(find:*)",
+      "bash(bash scripts/security-audit.sh)"
+    ]
+  },
+  "hooks": {
+    "post-edit": [
+      {
+        "description": "Security audit on critical module changes",
+        "match": [
+          "packages/identity-hub/src/**",
+          "apps/bot-backend/src/services/intent-engine.ts",
+          "apps/bot-backend/src/modules/build-transaction-payload.ts",
+          "apps/bot-backend/src/modules/dedust-tx-builder.ts",
+          "apps/bot-backend/src/modules/stonfi-tx-builder.ts",
+          "apps/bot-backend/src/services/monetization-service.ts",
+          "packages/mcp-servers/*/src/**"
+        ],
+        "command": "bash scripts/security-audit.sh --quick"
+      }
+    ],
+    "pre-commit": [
+      {
+        "description": "Full security audit before every commit",
+        "command": "bash scripts/security-audit.sh --full"
+      }
+    ]
+  },
+  "skills": [
+    ".claude/skills/security-audit.md"
+  ]
+}

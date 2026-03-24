@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#
+# Git Pre-Commit Hook — TradeMind Security Audit
+#
+# Automatically runs the full security audit before every commit.
+# If any check fails, the commit is blocked.
+#
+# Install: bash scripts/install-hooks.sh
+# Or manually: cp scripts/hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+#
+
+set -euo pipefail
+
+echo "[pre-commit] Running TradeMind security audit..."
+
+# Navigate to repo root
+cd "$(git rev-parse --show-toplevel)"
+
+# Run full audit
+if bash scripts/security-audit.sh --full; then
+  echo "[pre-commit] Security audit passed. Proceeding with commit."
+  exit 0
+else
+  echo ""
+  echo "[pre-commit] ⛔ COMMIT BLOCKED — security audit failed."
+  echo "[pre-commit] Fix the issues and try again."
+  echo "[pre-commit] To skip (DANGEROUS): git commit --no-verify"
+  exit 1
+fi
